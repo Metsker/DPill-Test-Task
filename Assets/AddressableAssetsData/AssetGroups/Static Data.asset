@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Static Data
+  m_EditorClassIdentifier: 
+  m_GroupName: Static Data
+  m_Data:
+    m_SerializedData: []
+  m_GUID: e394720a5afc90b4b8611a0ada750cec
+  m_SerializeEntries:
+  - m_GUID: 121364322bed4c24fbc9c2b24e76368c
+    m_Address: StartGun
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Guns
+  - m_GUID: 782857b1cd9970c498966dd3d47a4679
+    m_Address: Main
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Levels
+  - m_GUID: 834f66adec19ef44f8184e983023f4b5
+    m_Address: LichData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Monsters
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 3a29d9100a6db594cae0ad33215309c0, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: bc7e9f485b8ad6347adb5e31eb38a7be, type: 2}
+    - {fileID: 11400000, guid: 8a29ff7eb3765ef4a86132c7271a7b71, type: 2}
