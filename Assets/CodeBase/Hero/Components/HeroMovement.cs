@@ -5,12 +5,12 @@ using UnityEngine;
 namespace CodeBase.Hero.Components
 {
     [RequireComponent(typeof(CharacterController))]
-    public class HeroMovement : MonoBehaviour, IDisabledOnDeath
+    public class HeroMovement : MonoBehaviour, IDisabledOnDeath, IResettableOnRestart
     {
         [SerializeField] private CharacterController characterController;
         [SerializeField] private float speed = 4;
+        
         private Camera _camera;
-
         private IInputService _inputService;
 
         private void Awake()
@@ -41,7 +41,14 @@ namespace CodeBase.Hero.Components
 
         public void Disable()
         {
+            characterController.enabled = false;
             enabled = false;
+        }
+        
+        public void Reset()
+        {
+            characterController.enabled = true;
+            enabled = true;
         }
     }
 }

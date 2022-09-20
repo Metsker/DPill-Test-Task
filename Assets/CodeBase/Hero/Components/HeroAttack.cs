@@ -7,23 +7,21 @@ using UnityEngine;
 namespace CodeBase.Hero.Components
 {
     [RequireComponent(typeof(HeroAnimator), typeof(HeroZoneInformer), typeof(CharacterController))]
-    public class HeroAttack : MonoBehaviour, IDisabledOnDeath
+    public class HeroAttack : MonoBehaviour, IDisabledOnDeath, IResettableOnRestart
     {
         [SerializeField] private HeroDeath heroDeath;
         [SerializeField] private HeroZoneInformer heroZoneInformer;
         [SerializeField] private CharacterController characterController;
+        
         private IEnumerator _autoAttackCoroutine;
         private IGameFactory _gameFactory;
 
         private Gun _gun;
 
-        private void Awake()
-        {
-            _autoAttackCoroutine = AutoAttack();
-        }
-
         private void OnEnable()
         {
+            _autoAttackCoroutine = AutoAttack();
+            
             heroZoneInformer.EnterSafeZone += DisableAutoAttack;
             heroZoneInformer.ExitSafeZone += EnableAutoAttack;
         }
@@ -37,6 +35,11 @@ namespace CodeBase.Hero.Components
         public void Disable()
         {
             enabled = false;
+        }
+        
+        public void Reset()
+        {
+            enabled = true;
         }
 
         public void Construct(IGameFactory gameFactory)

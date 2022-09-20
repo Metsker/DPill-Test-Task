@@ -15,7 +15,7 @@ MonoBehaviour:
   levelKey: Main
   enemySpawners:
   - monsterTypeId: 0
-    secondsToSpawn: 3
+    spawnDelay: 2
     monsterCap: 10
   battleFieldData:
     minX: -14.6

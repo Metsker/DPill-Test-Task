@@ -36,8 +36,9 @@ namespace CodeBase.Enemy.Components
             DisableComponents();
 
             animator.PlayDeath();
-            Happened?.Invoke();
 
+            Happened?.Invoke();
+            
             StartCoroutine(DestroyTimer());
         }
 

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using CodeBase.Enemy.LootLogic;
 using CodeBase.Hero;
 using CodeBase.Infrastructure.Services;
+using CodeBase.Logic.EnemySpawn;
 using CodeBase.StaticData;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -12,6 +13,7 @@ namespace CodeBase.Infrastructure.Factory
     {
         public GameObject heroGameObject { get; }
         public List<Transform> monsters { get; }
+        public List<Spawner> spawners { get; }
         public List<GameObject> loot { get; }
         Task WarmUp();
         Task<GameObject> CreateHero(Vector3 at);
@@ -21,6 +23,5 @@ namespace CodeBase.Infrastructure.Factory
         Task<LootPiece> CreateLoot();
         Task CreateSpawner(EnemySpawnerData spawnerData, BattleFieldData battleFieldData);
         void Cleanup();
-        void InitHud();
     }
 }

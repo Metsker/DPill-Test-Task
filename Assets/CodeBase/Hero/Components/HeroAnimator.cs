@@ -1,18 +1,20 @@
 using System;
+using CodeBase.Logic;
 using CodeBase.Logic.Animations;
 using UnityEngine;
 namespace CodeBase.Hero.Components
 {
     [RequireComponent(typeof(Animator))]
-    public class HeroAnimator : MonoBehaviour, IAnimationStateReader
+    public class HeroAnimator : MonoBehaviour, IAnimationStateReader, IResettableOnRestart
     {
         private static readonly int MoveHash = Animator.StringToHash("Walking");
         private static readonly int AttackHash = Animator.StringToHash("AttackNormal");
         private static readonly int HitHash = Animator.StringToHash("Hit");
         private static readonly int DieHash = Animator.StringToHash("Die");
 
-        public Animator Animator;
-        public CharacterController CharacterController;
+        [SerializeField] private Animator animator;
+        [SerializeField] private CharacterController characterController;
+        
         private readonly int _attackStateHash = Animator.StringToHash("Attack Normal");
         private readonly int _deathStateHash = Animator.StringToHash("Die");
 
@@ -21,7 +23,7 @@ namespace CodeBase.Hero.Components
 
         private void Update()
         {
-            Animator.SetFloat(MoveHash, CharacterController.velocity.magnitude, 0.1f, Time.deltaTime);
+            animator.SetFloat(MoveHash, characterController.velocity.magnitude, 0.1f, Time.deltaTime);
         }
 
         public AnimatorState State { get; private set; }
@@ -42,23 +44,29 @@ namespace CodeBase.Hero.Components
 
         public void PlayHit()
         {
-            Animator.SetTrigger(HitHash);
+            animator.SetTrigger(HitHash);
         }
 
         public void PlayAttack()
         {
-            Animator.SetTrigger(AttackHash);
+            animator.SetTrigger(AttackHash);
         }
 
         public void PlayDeath()
         {
-            Animator.SetTrigger(DieHash);
+            animator.SetTrigger(DieHash);
         }
 
-        public void ResetToIdle()
+        public void PlayIdle()
         {
-            Animator.Play(_idleStateHash, -1);
+            animator.Play(_idleStateHash, -1);
         }
+        
+        public void Reset()
+        {
+            PlayIdle();
+        }
+
 
         private AnimatorState StateFor(int stateHash)
         {

@@ -1322,10 +1322,10 @@ GameObject:
   - component: {fileID: 962959807902435341}
   - component: {fileID: 4585494915828004268}
   - component: {fileID: -2882019833374832941}
-  - component: {fileID: 5785238071554938817}
   - component: {fileID: -6038110869686322548}
   - component: {fileID: -7562227356368447810}
   - component: {fileID: 5626155977906837012}
+  - component: {fileID: 5785238071554938817}
   m_Layer: 7
   m_Name: Hero
   m_TagString: Player
@@ -1419,8 +1419,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0b4024fa63c4039b3ed513573f9f84e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Animator: {fileID: 9588594}
-  CharacterController: {fileID: 3974544156026470485}
+  animator: {fileID: 9588594}
+  characterController: {fileID: 3974544156026470485}
 --- !u!114 &962959807902435341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1461,23 +1461,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4115e5ed34714727bbabc881becaa29c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heroAnimator: {fileID: 3906343216328721700}
   heroDeath: {fileID: -6038110869686322548}
   heroZoneInformer: {fileID: -7562227356368447810}
   characterController: {fileID: 3974544156026470485}
---- !u!114 &5785238071554938817
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 176288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37e13fa8bac44d55b67bfa4a4071bbe0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hpBar: {fileID: 2075101910627453374}
 --- !u!114 &-6038110869686322548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1491,10 +1477,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: {fileID: 4585494915828004268}
-  movement: {fileID: 962959807902435341}
   animator: {fileID: 3906343216328721700}
-  attack: {fileID: -2882019833374832941}
-  deathFx: {fileID: 100000, guid: 82a91e9f8a3879a4ca7adc4a52c5d745, type: 3}
 --- !u!114 &-7562227356368447810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1521,6 +1504,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   counter: {fileID: 1545821149481761062}
+--- !u!114 &5785238071554938817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 176288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37e13fa8bac44d55b67bfa4a4071bbe0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hpBar: {fileID: 2075101910627453374}
 --- !u!1 &178646
 GameObject:
   m_ObjectHideFlags: 0

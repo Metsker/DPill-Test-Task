@@ -1,9 +1,14 @@
 ﻿using System.Threading.Tasks;
+using CodeBase.Hero.Components;
 using CodeBase.Infrastructure.Factory;
 using CodeBase.Infrastructure.Services.PlayerData;
+using CodeBase.Logic;
+using CodeBase.Logic.EnemySpawn;
 using CodeBase.StaticData;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Object = UnityEngine.Object;
 namespace CodeBase.Infrastructure.States
 {
     public class RestartState : IState
@@ -13,8 +18,6 @@ namespace CodeBase.Infrastructure.States
         private readonly LoadingCurtain _loadingCurtain;
         private readonly IPlayerProgressService _progressService;
         private readonly IStaticDataService _staticData;
-
-        private GameObject _heroGameObject;
 
         public RestartState(IGameStateMachine gameStateMachine, IStaticDataService staticData,
             IPlayerProgressService progressService, LoadingCurtain loadingCurtain, IGameFactory gameFactory)
@@ -30,12 +33,13 @@ namespace CodeBase.Infrastructure.States
         {
             _loadingCurtain.Show();
 
-            _heroGameObject = _gameFactory.heroGameObject;
-
             ResetEnvironment();
+            
             await ResetHero();
-            ResetHud();
+            
             ResetLoot();
+
+            ResetSpawners();
 
             _gameStateMachine.Enter<GameLoopState>();
         }
@@ -59,17 +63,34 @@ namespace CodeBase.Infrastructure.States
 
         private async Task ResetHero()
         {
-            Object.Destroy(_heroGameObject);
-            await _gameFactory.CreateHero(LevelStaticData().initialHeroPosition);
+            GameObject heroGameObject = _gameFactory.heroGameObject;
+
+            await MoveHeroToStartPosition(heroGameObject);
+
+            foreach (IResettableOnRestart component in heroGameObject.GetComponents<IResettableOnRestart>())
+                component.Reset();
         }
-        private void ResetHud()
+        
+        private async Task MoveHeroToStartPosition(GameObject heroGameObject)
         {
-            _gameFactory.InitHud();
+            heroGameObject.GetComponent<HeroMovement>().Disable();
+
+            await heroGameObject.transform
+                .DOMove(LevelStaticData().initialHeroPosition, 0)
+                .AsyncWaitForCompletion();
+            
+            heroGameObject.transform.rotation = Quaternion.identity;
         }
 
         private void ResetLoot()
         {
             _progressService.lootData.Reset();
+        }
+        
+        private void ResetSpawners()
+        {
+            foreach (Spawner spawner in _gameFactory.spawners)
+                spawner.RestartSpawning();
         }
 
         private LevelStaticData LevelStaticData()

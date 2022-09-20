@@ -5,13 +5,13 @@ namespace CodeBase.StaticData
     public struct EnemySpawnerData
     {
         public MonsterTypeId monsterTypeId;
-        public float secondsToSpawn;
+        public float spawnDelay;
         public float monsterCap;
 
-        public EnemySpawnerData(MonsterTypeId monsterTypeId, float secondsToSpawn, float monsterCap)
+        public EnemySpawnerData(MonsterTypeId monsterTypeId, float spawnDelay, float monsterCap)
         {
             this.monsterTypeId = monsterTypeId;
-            this.secondsToSpawn = secondsToSpawn;
+            this.spawnDelay = spawnDelay;
             this.monsterCap = monsterCap;
         }
     }

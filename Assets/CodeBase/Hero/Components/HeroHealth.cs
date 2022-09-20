@@ -4,39 +4,31 @@ using UnityEngine;
 namespace CodeBase.Hero.Components
 {
     [RequireComponent(typeof(HeroAnimator))]
-    public class HeroHealth : MonoBehaviour, IHealth
+    public class HeroHealth : MonoBehaviour, IHealth, IResettableOnRestart
     {
         [SerializeField] private HeroAnimator animator;
         [SerializeField] private float health = 20;
 
         private bool _isDead;
-
-        public void Reset()
-        {
-            current = max;
-        }
-
-        private void Start()
-        {
-            max = health;
-        }
-
         public event Action HealthChanged;
+
 
         public float current
         {
-            get
-            {
-                return health;
-            }
-            set
+            get => health;
+            private set
             {
                 health = value;
                 HealthChanged?.Invoke();
             }
         }
 
-        public float max { get; set; }
+        public float max { get; private set; }
+        
+        private void Start()
+        {
+            max = health;
+        }
 
         public void TakeDamage(float damage)
         {
@@ -45,6 +37,11 @@ namespace CodeBase.Hero.Components
 
             current -= damage;
             animator.PlayHit();
+        }
+        
+        public void Reset()
+        {
+            current = max;
         }
     }
 }

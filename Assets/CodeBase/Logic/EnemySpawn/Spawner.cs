@@ -13,6 +13,7 @@ namespace CodeBase.Logic.EnemySpawn
 
         private IGameFactory _factory;
         private HeroDeath _heroDeath;
+        
         private float _maxX;
         private float _maxZ;
 
@@ -22,7 +23,9 @@ namespace CodeBase.Logic.EnemySpawn
 
         private int _monsterCount;
         private MonsterTypeId _monsterTypeId;
-        private float _secondsToSpawn;
+        private float _spawnDelay;
+
+        private IEnumerator _spawnCoroutine;
 
         public void Construct(IGameFactory factory, EnemySpawnerData spawnerData, BattleFieldData battleFieldData,
             HeroDeath heroDeath)
@@ -30,7 +33,7 @@ namespace CodeBase.Logic.EnemySpawn
             _factory = factory;
 
             _monsterTypeId = spawnerData.monsterTypeId;
-            _secondsToSpawn = spawnerData.secondsToSpawn;
+            _spawnDelay = spawnerData.spawnDelay;
             _monsterCap = spawnerData.monsterCap;
 
             _minX = battleFieldData.minX;
@@ -40,18 +43,29 @@ namespace CodeBase.Logic.EnemySpawn
 
             _heroDeath = heroDeath;
         }
-
         public void StartSpawning()
         {
-            StartCoroutine(SpawnCoroutine());
+            _spawnCoroutine = SpawnCoroutine();
+            StartCoroutine(_spawnCoroutine);
         }
 
+        public void RestartSpawning()
+        {
+            StopCoroutine(_spawnCoroutine);
+            
+            _monsterCount = 0;
+            
+            StartSpawning();
+        }
+        
         private IEnumerator SpawnCoroutine()
         {
             while (!_heroDeath.isDead)
             {
+                yield return new WaitForSeconds(_spawnDelay);
+                
                 Spawn();
-                yield return new WaitForSeconds(_secondsToSpawn);
+                
                 yield return new WaitUntil(() => _monsterCount < _monsterCap);
             }
         }

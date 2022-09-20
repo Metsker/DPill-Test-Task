@@ -8,28 +8,22 @@ namespace CodeBase.Enemy.Components
     {
         [SerializeField] private EnemyAnimator animator;
         [SerializeField] private float health = 10;
-
-        private void Start()
-        {
-            max = health;
-        }
-
+        
         public float current
         {
-            get
-            {
-                return health;
-            }
-            private set
-            {
-                health = value;
-            }
+            get => health;
+            private set => health = value;
         }
 
         public float max { get; private set; }
 
         public event Action HealthChanged;
 
+        private void Start()
+        {
+            max = health;
+        }
+        
         public void TakeDamage(float damage)
         {
             current -= damage;

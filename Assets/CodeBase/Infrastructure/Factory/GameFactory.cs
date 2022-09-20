@@ -35,11 +35,11 @@ namespace CodeBase.Infrastructure.Factory
             _windowService = windowService;
         }
 
-        public List<Transform> monsters { get; } = new ();
-        public List<GameObject> loot { get; } = new ();
-
         public GameObject heroGameObject { get; private set; }
-
+        public List<Transform> monsters { get; } = new ();
+        public List<Spawner> spawners { get; } = new ();
+        public List<GameObject> loot { get; } = new ();
+        
         private GameObject _hud;
 
         public async Task WarmUp()
@@ -72,12 +72,6 @@ namespace CodeBase.Infrastructure.Factory
 
             return _hud;
         }
-        public void InitHud()
-        {
-            _hud
-                .GetComponentInChildren<HudLootCounter>()
-                .Construct(_progressService.lootData, heroGameObject.GetComponent<HeroZoneInformer>());
-        }
 
         public async Task<LootPiece> CreateLoot()
         {
@@ -97,9 +91,10 @@ namespace CodeBase.Infrastructure.Factory
             GameObject prefab = await _assetProvider.Load<GameObject>(AssetAddress.Spawner);
             Spawner spawner = Object.Instantiate(prefab)
                 .GetComponent<Spawner>();
-
+            
+            spawners.Add(spawner);
+            
             spawner.Construct(this, spawnerData, battleFieldData, heroGameObject.GetComponent<HeroDeath>());
-
             spawner.StartSpawning();
         }
 
@@ -133,6 +128,7 @@ namespace CodeBase.Infrastructure.Factory
         {
             monsters.Clear();
             loot.Clear();
+            spawners.Clear();
 
             _assetProvider.Cleanup();
         }
@@ -158,6 +154,12 @@ namespace CodeBase.Infrastructure.Factory
             monster.GetComponent<EnemyAttack>().Construct(heroGameObject.transform);
             monster.GetComponent<EnemyAggro>().Construct(heroGameObject.GetComponent<HeroZoneInformer>());
             monster.GetComponent<EnemyWinner>().Construct(heroGameObject.GetComponent<HeroDeath>());
+        }
+        private void InitHud()
+        {
+            _hud
+                .GetComponentInChildren<HudLootCounter>()
+                .Construct(_progressService.lootData, heroGameObject.GetComponent<HeroZoneInformer>());
         }
 
         private void DefineLoot(GameObject monster, MonsterStaticData monsterData)

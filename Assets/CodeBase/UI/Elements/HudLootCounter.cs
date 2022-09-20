@@ -7,15 +7,9 @@ namespace CodeBase.UI.Elements
     public class HudLootCounter : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI counter;
+        
         private HeroZoneInformer _heroZoneInformer;
-
         private LootData _lootData;
-
-        private void OnDestroy()
-        {
-            _heroZoneInformer.EnterSafeZone -= MoveLootToBank;
-            _lootData.Changed -= UpdateCounter;
-        }
 
         public void Construct(LootData lootData, HeroZoneInformer heroZoneInformer)
         {
@@ -27,6 +21,13 @@ namespace CodeBase.UI.Elements
 
             UpdateCounter();
         }
+        
+        private void OnDestroy()
+        {
+            _heroZoneInformer.EnterSafeZone -= MoveLootToBank;
+            _lootData.Changed -= UpdateCounter;
+        }
+
 
         private void MoveLootToBank()
         {

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace CodeBase.Hero.Components
 {
     [RequireComponent(typeof(HeroHealth), typeof(HeroAnimator))]
-    public class HeroDeath : MonoBehaviour
+    public class HeroDeath : MonoBehaviour, IResettableOnRestart
     {
         [SerializeField] private HeroHealth health;
         [SerializeField] private HeroAnimator animator;
@@ -23,6 +23,11 @@ namespace CodeBase.Hero.Components
 
         public event Action Happened;
 
+        public void Reset()
+        {
+            isDead = false;
+        }
+        
         private void HealthChanged()
         {
             if (AliveOrAlreadyDead())

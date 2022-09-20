@@ -33,6 +33,7 @@ namespace CodeBase.Infrastructure.States
         {
             await LoadStaticData();
             await _services.Single<IAssetProvider>().Instantiate();
+            
             _sceneLoader.Load(InitialScene, EnterLoadLevel);
         }
 
